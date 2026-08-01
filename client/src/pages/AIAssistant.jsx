@@ -24,7 +24,7 @@ function AIAssistant() {
     setLoading(true);
 
     try {
-      const res = await fetch("https://prephubai.onrender.com", {
+      const res = await fetch("https://prephubai.onrender.com/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,6 +36,10 @@ function AIAssistant() {
         }),
       });
 
+      if (!res.ok) {
+        throw new Error("Server Error");
+      }
+
       const data = await res.json();
 
       setMessages((prev) => [
@@ -46,6 +50,8 @@ function AIAssistant() {
         },
       ]);
     } catch (error) {
+      console.error(error);
+
       setMessages((prev) => [
         ...prev,
         {
